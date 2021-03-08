@@ -8,6 +8,9 @@ tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown
 # Define targets
 targets <- list(
 
+  # accessing the data
+  # to access the data, first run the following R script: osf.r
+
   # reading data
   tar_target(survey_data, read_excel(here("data", "ngss-adoption-survey.xlsx"))),
   tar_target(state_data, read_excel(here("data", "ngss-adoption-states.xlsx"))),
