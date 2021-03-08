@@ -6,18 +6,22 @@ params:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = FALSE, eval = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = FALSE, eval = TRUE, echo = FALSE)
 ```
 
 ```{r, renaming-params}
 data <- params$data
 ```
 
+# Adoption Status
+
 ```{r}
 data %>% 
   select(location, adoption_status) %>% 
   knitr::kable()
 ```
+
+# Plot 
 
 ```{r}
 data %>% 
@@ -33,4 +37,8 @@ data %>%
   ylab("% of Respondents Indicating Their School is Teaching the NGSS") +
   geom_hline(yintercept = 50, linetype = "dashed") +
   coord_flip()
+```
+
+```{r}
+tar_glimpse()
 ```

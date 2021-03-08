@@ -7,3 +7,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+This is an example repository for a project that involves the analysis of summary
+data from a large-scale assessment. It uses data from the following source:
+
+- [RAND American Instructional Resources Survey (AIRS) Project](https://www.rand.org/education-and-labor/projects/aep/selected-projects/airs.html)
+

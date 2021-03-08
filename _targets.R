@@ -22,6 +22,11 @@ targets <- list(
                                        output_file = "docs/report.html",
                                        params = list(data = joined_data_to_model))
   ),
+  tar_target(target_doc, rmarkdown::render("targets.Rmd",
+                                           output_file = "docs/targets.html",
+                                           params = list(data = joined_data_to_model))
+  ),
+  tar_target(index, rmarkdown::render(here("docs", "index.Rmd"))),
   tar_target(site, render_site("docs"))
 
 )

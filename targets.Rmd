@@ -1,0 +1,26 @@
+---
+title: "Report"
+output: html_document
+params:
+  data: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = FALSE, eval = TRUE, echo = FALSE)
+```
+
+```{r, renaming-params}
+data <- params$data
+```
+
+# Targets plan
+
+```{r}
+tar_glimpse()
+```
+
+# Session info
+
+```{r}
+sessionInfo()
+```
