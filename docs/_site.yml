@@ -1,0 +1,15 @@
+name: AIRS NGSS Survey
+output_dir: '.'
+navbar:
+  title: AIRS NGSS Survey
+  left:
+  - text: Home
+    href: index.html
+  - text: Report
+    href: report.html
+  - text: OSF
+    href: https://osf.io/2jypf/
+  - text: GitHub
+    href:
+output:
+  html_document:

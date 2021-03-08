@@ -1,0 +1,36 @@
+---
+title: "Report"
+output: html_document
+params:
+  data: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, cache = FALSE, eval = FALSE)
+```
+
+```{r, renaming-params}
+data <- params$data
+```
+
+```{r}
+data %>% 
+  select(location, adoption_status) %>% 
+  knitr::kable()
+```
+
+```{r}
+data %>% 
+  mutate(year = as.factor(year)) %>% 
+  ggplot(aes(x = location_fct, y = category_yes, fill = year)) +
+  geom_col(position = "dodge") +
+  geom_errorbar(aes(ymin = category_yes - (margin_of_error_yes / 2),
+                    ymax = category_yes + margin_of_error_yes / 2),
+                position = "dodge") +
+  theme_minimal() +
+  xlab(NULL) +
+  theme(text = element_text(size = 14)) +
+  ylab("% of Respondents Indicating Their School is Teaching the NGSS") +
+  geom_hline(yintercept = 50, linetype = "dashed") +
+  coord_flip()
+```
