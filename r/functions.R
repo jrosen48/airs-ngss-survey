@@ -20,3 +20,16 @@ process_data <- function(data) {
     mutate(year = parse_number(dataset)) %>%
     mutate(location_fct = fct_reorder(location, category_no))
 }
+
+prep_data_for_plot <- function(data) {
+  data %>%
+    mutate(year = as.factor(year),
+           ymin = category_yes - (margin_of_error_yes / 2),
+           ymax = category_yes + (margin_of_error_yes / 2))
+}
+
+upload_pdf_report <- function(pdf_report) {
+  pdf_report
+  osf_retrieve_node("2jypf") %>%
+    osf_upload(path = here("docs", "report.pdf"))
+}

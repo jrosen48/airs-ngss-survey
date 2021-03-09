@@ -5,7 +5,7 @@ source(here::here("osf.R"))
 
 # Set target-specific options such as packages.
 tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown",
-                            "osfr", "fs"))
+                            "osfr", "fs", "targets"))
 
 # Define targets
 targets <- list(
@@ -17,24 +17,31 @@ targets <- list(
   # processing data
   tar_target(joined_data, join_data(survey_data, state_data)),
   tar_target(joined_data_proc, clean_names(joined_data)),
-  tar_target(joined_data_to_model, process_data(joined_data_proc)),
+  tar_target(joined_data_parsed, process_data(joined_data_proc)),
+  tar_target(joined_data_to_model, prep_data_for_plot(joined_data_parsed)),
 
   # output
   tar_target(report, render("report.Rmd",
                             output_file = "docs/report.html",
-                            params = list(data = joined_data_to_model))
+                            params = list(data = joined_data_to_model)),
+                            cue = tar_cue(mode = "always")
   ),
   tar_target(report_pdf, render("report.Rmd",
                                 output_format = "pdf_document",
                                 output_file = "docs/report.pdf",
-                                params = list(data = joined_data_to_model))
+                                params = list(data = joined_data_to_model)),
+                                cue = tar_cue(mode = "always")
   ),
   tar_target(target_doc, render("targets.Rmd",
                                 output_file = "docs/targets.html",
-                                params = list(data = joined_data_to_model))
+                                params = list(data = joined_data_to_model)),
+                                cue = tar_cue(mode = "always")
   ),
+
   tar_target(index, render(here("docs", "index.Rmd"))),
   tar_target(site, render_site("docs"))
+
+  # tar_target(upload_report, upload_pdf_report(report_pdf)) # requires authentication
 
 )
 

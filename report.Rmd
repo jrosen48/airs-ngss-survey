@@ -23,6 +23,8 @@ data %>%
 
 # Plot 
 
+Teachers in states that have neither adapted nor adopted the #NGSS report that their school is teaching the NGSS to a high degree (Florida); states that adapted standards based on NGSS (Tennessee, Mississippi, Nebraska, Louisiana) still report teaching the NGSS.
+
 ```{r}
 data %>% 
   mutate(year = as.factor(year)) %>% 

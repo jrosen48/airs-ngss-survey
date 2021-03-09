@@ -5,6 +5,11 @@
 This is a repository for an analysis of the extent to which science teachers across the United States
 consider themselves to be teaching the [Next Generation Science Standards](https://ngss.nsta.org/About.aspx).
 
+This is an example repository for a project that involves the analysis of summary
+data from a large-scale assessment. It uses data from the following source:
+
+- [RAND American Instructional Resources Survey (AIRS) Project](https://www.rand.org/education-and-labor/projects/aep/selected-projects/airs.html)
+
 The project uses a number of tools to address a number of challenges and/or to leverage certain opportunities:
 
   - git/GitHub for sharing _code_ publicly in a way that promotes collaboration and transparency
@@ -28,22 +33,10 @@ Open the project by clicking on `airs-ngss-survey.Rproj`. This opens the project
 Install the required packages by running the following function in your R console:
 
 ```{r}
-install.packages(c("here", "tidyverse", "readxl", "janitor", "rmarkdown", "osfr", "fs"))
+install.packages(c("here", "tidyverse", "readxl", "janitor", "rmarkdown", "osfr", "fs", "targets"))
 ```
 
-### 3. Installing the {targets} R package
-
-The [{targets}](https://cran.r-project.org/web/packages/targets/index.html) R package is used to run all
-of the analyses for this project.
-
-To install {targets}:
-
-```{r}
-library(remotes)
-install_github("wlandau/targets")
-```
-
-### 4. Running the analysis
+### 3. Running the analysis
 
 To run the project pipeline, enter and run the following function in the RStudio console:
 
@@ -51,18 +44,13 @@ To run the project pipeline, enter and run the following function in the RStudio
 
 This will run all of the analyses and create the output, including an R Markdown report. 
 
-This includes accessing the data from OSF via the {osfr} package.
-
-While private data is often stored in OSF repositories, public data may also be;
-the targets plan will download the two required files (in 
-the `/data` directory):
-
-- `/data/ngss-adoption-states.xlsx`
-- `/data/ngss-adoption-survey.xlsx`
-
-If this data were a part of a private repository, you would first need to be granted
-access to the repository. Then, you would need to [authenticate your identity via 
-osfr](https://cran.r-project.org/web/packages/osfr/vignettes/auth.html).
+This includes accessing the data from OSF (available [here](https://osf.io/2jypf/)) via the {osfr} package.
 
 If any part of the analysis that a later parts depends upon changes, 
 then running the above command will re-run all of the analyses from that point forward. 
+
+*Note on data.*
+While private data is often stored in OSF repositories, public data may also be;
+the targets plan will download the two required files (in 
+the `/data` directory). If this data were a part of a private repository, you would first need to be granted access to the repository. Then, you would need to [authenticate your identity via 
+osfr](https://cran.r-project.org/web/packages/osfr/vignettes/auth.html).
