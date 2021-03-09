@@ -1,6 +1,7 @@
 library(targets)
 
 source(here::here("r", "functions.R"))
+source(here::here("osf.R"))
 
 # Set target-specific options such as packages.
 tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown",
@@ -9,15 +10,9 @@ tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown
 # Define targets
 targets <- list(
 
-  # accessing the data
-  # to access the data, first run the following R script: osf.r
-
-  # downloading data
-  tar_target(osf_data, access_osf_data),
-
   # reading data
-  tar_target(survey_data, read_survey_data(osf_data)),
-  tar_target(state_data, read_state_data(osf_data)),
+  tar_target(survey_data, read_excel(here("data", "ngss-adoption-survey.xlsx"))),
+  tar_target(state_data, read_excel(here("data", "ngss-adoption-states.xlsx"))),
 
   # processing data
   tar_target(joined_data, join_data(survey_data, state_data)),
