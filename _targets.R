@@ -16,8 +16,8 @@ targets <- list(
   tar_target(osf_data, access_osf_data),
 
   # reading data
-  tar_target(survey_data, read_excel(here("data", "ngss-adoption-survey.xlsx"))),
-  tar_target(state_data, read_excel(here("data", "ngss-adoption-states.xlsx"))),
+  tar_target(survey_data, read_survey_data(osf_data)),
+  tar_target(state_data, read_state_data(osf_data)),
 
   # processing data
   tar_target(joined_data, join_data(survey_data, state_data)),
