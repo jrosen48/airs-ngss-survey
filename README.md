@@ -11,7 +11,7 @@ the `/data` directory):
 - `/data/ngss-adoption-states.xlsx`
 - `/data/ngss-adoption-survey.xlsx`
 
-## Using {targets}
+## Installing and Using the {targets} R package
 
 To install {targets}:
 
