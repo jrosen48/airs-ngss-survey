@@ -31,5 +31,5 @@ prep_data_for_plot <- function(data) {
 upload_pdf_report <- function(pdf_report) {
   pdf_report
   osf_retrieve_node("2jypf") %>%
-    osf_upload(path = here("docs", "report.pdf"))
+    osf_upload(path = here("docs", "report.pdf"), conflicts = "overwrite")
 }

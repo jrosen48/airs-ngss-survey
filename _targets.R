@@ -39,9 +39,9 @@ targets <- list(
   ),
 
   tar_target(index, render(here("docs", "index.Rmd"))),
-  tar_target(site, render_site("docs"))
+  tar_target(site, render_site("docs")),
 
-  # tar_target(upload_report, upload_pdf_report(report_pdf)) # requires authentication
+  tar_target(upload_report, upload_pdf_report(report_pdf)) # requires authentication via OSF
 
 )
 

@@ -30,8 +30,8 @@ data %>%
   mutate(year = as.factor(year)) %>% 
   ggplot(aes(x = location_fct, y = category_yes, fill = year)) +
   geom_col(position = "dodge") +
-  geom_errorbar(aes(ymin = category_yes - (margin_of_error_yes / 2),
-                    ymax = category_yes + margin_of_error_yes / 2),
+  geom_errorbar(aes(ymin = ymin,
+                    ymax = ymax),
                 position = "dodge") +
   theme_minimal() +
   xlab(NULL) +
