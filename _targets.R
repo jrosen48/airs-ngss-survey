@@ -1,6 +1,6 @@
 library(targets)
 
-source(here::here("R", "functions.R"))
+source(here::here("r", "functions.R"))
 
 # Set target-specific options such as packages.
 tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown",
