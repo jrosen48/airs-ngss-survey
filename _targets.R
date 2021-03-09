@@ -3,13 +3,17 @@ library(targets)
 source(here::here("R", "functions.R"))
 
 # Set target-specific options such as packages.
-tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown"))
+tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown",
+                            "osfr", "fs"))
 
 # Define targets
 targets <- list(
 
   # accessing the data
   # to access the data, first run the following R script: osf.r
+
+  # downloading data
+  tar_target(osf_data, access_osf_data),
 
   # reading data
   tar_target(survey_data, read_excel(here("data", "ngss-adoption-survey.xlsx"))),
@@ -21,15 +25,20 @@ targets <- list(
   tar_target(joined_data_to_model, process_data(joined_data_proc)),
 
   # output
-  tar_target(report, rmarkdown::render("report.Rmd",
-                                       output_file = "docs/report.html",
-                                       params = list(data = joined_data_to_model))
+  tar_target(report, render("report.Rmd",
+                            output_file = "docs/report.html",
+                            params = list(data = joined_data_to_model))
   ),
-  tar_target(target_doc, rmarkdown::render("targets.Rmd",
-                                           output_file = "docs/targets.html",
-                                           params = list(data = joined_data_to_model))
+  tar_target(report_pdf, render("report.Rmd",
+                                output_format = "pdf_document",
+                                output_file = "docs/report.pdf",
+                                params = list(data = joined_data_to_model))
   ),
-  tar_target(index, rmarkdown::render(here("docs", "index.Rmd"))),
+  tar_target(target_doc, render("targets.Rmd",
+                                output_file = "docs/targets.html",
+                                params = list(data = joined_data_to_model))
+  ),
+  tar_target(index, render(here("docs", "index.Rmd"))),
   tar_target(site, render_site("docs"))
 
 )

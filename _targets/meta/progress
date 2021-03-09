@@ -1,3 +1,7 @@
 name|type|parent|branches|progress
+report_pdf|stem|report_pdf|0|running
+report_pdf|stem|report_pdf|0|built
+report|stem|report|0|running
+report|stem|report|0|built
 target_doc|stem|target_doc|0|running
 target_doc|stem|target_doc|0|built

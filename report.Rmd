@@ -38,7 +38,3 @@ data %>%
   geom_hline(yintercept = 50, linetype = "dashed") +
   coord_flip()
 ```
-
-```{r}
-tar_glimpse()
-```

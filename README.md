@@ -15,32 +15,23 @@ The project uses a number of tools to address a number of challenges and/or to l
 
 ## How to reproduce this analysis 
 
-### 1. Access the data
-
-The data is available on the Open Science Framework: https://osf.io/2jypf/
-
-While private data is often stored in OSF repositories, public data may also be;
-to download the data, run the R script `osf.R`, which will download the two required files (in 
-the `/data` directory):
-
-- `/data/ngss-adoption-states.xlsx`
-- `/data/ngss-adoption-survey.xlsx`
-
-If this data were a part of a private repository, you would first need to be granted
-access to the repository. Then, you would need to [authenticate your identity via 
-osfr](https://cran.r-project.org/web/packages/osfr/vignettes/auth.html).
-
-### 2. Access this repository
+### 1. Access this repository
 
 Clone or download this repository from its homepage. 
 
-### 3. Open the R Project in this repository
+### 2. Open the R Project in this repository
 
 This step requires having [R](https://www.r-project.org/) and [RStudio](https://rstudio.com) installed first.
 
 Open the project by clicking on `airs-ngss-survey.Rproj`. This opens the project in RStudio.
 
-### 4. Installing the {targets} R package
+Install the required packages by running the following function in your R console:
+
+```{r}
+install.packages(c("here", "tidyverse", "readxl", "janitor", "rmarkdown", "osfr", "fs"))
+```
+
+### 3. Installing the {targets} R package
 
 The [{targets}](https://cran.r-project.org/web/packages/targets/index.html) R package is used to run all
 of the analyses for this project.
@@ -52,12 +43,26 @@ library(remotes)
 install_github("wlandau/targets")
 ```
 
-### 5. Running the analysis
+### 4. Running the analysis
 
 To run the project pipeline, enter and run the following function in the RStudio console:
 
 `targets::tar_make()`
 
-This will run all of the analyses and create the output, including an R Markdown report. If any
-part of the analysis that a later parts depends upon changes, then running the above command
-will re-run all of the analyses from that point forward. 
+This will run all of the analyses and create the output, including an R Markdown report. 
+
+This includes accessing the data from OSF via the {osfr} package.
+
+While private data is often stored in OSF repositories, public data may also be;
+the targets plan will download the two required files (in 
+the `/data` directory):
+
+- `/data/ngss-adoption-states.xlsx`
+- `/data/ngss-adoption-survey.xlsx`
+
+If this data were a part of a private repository, you would first need to be granted
+access to the repository. Then, you would need to [authenticate your identity via 
+osfr](https://cran.r-project.org/web/packages/osfr/vignettes/auth.html).
+
+If any part of the analysis that a later parts depends upon changes, 
+then running the above command will re-run all of the analyses from that point forward. 
