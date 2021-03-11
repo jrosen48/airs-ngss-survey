@@ -5,7 +5,7 @@ source(here::here("osf.R"))
 
 # Set target-specific options such as packages.
 tar_option_set(packages = c("here", "tidyverse", "readxl", "janitor", "rmarkdown",
-                            "osfr", "fs", "targets"))
+                            "osfr", "fs", "targets", "cowplot"))
 
 # Define targets
 targets <- list(
@@ -39,9 +39,9 @@ targets <- list(
   ),
 
   tar_target(index, render(here("docs", "index.Rmd"))),
-  tar_target(site, render_site("docs"))
+  tar_target(site, render_site("docs")),
 
-  #tar_target(upload_report, upload_pdf_report(report_pdf)) # requires authentication via OSF
+  tar_target(upload_report, upload_pdf_report(report_pdf)) # requires authentication via OSF
 
 )
 

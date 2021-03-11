@@ -21,22 +21,125 @@ data %>%
   knitr::kable()
 ```
 
-# Plot 
+# Plot
 
-Teachers in states that have neither adapted nor adopted the #NGSS report that their school is teaching the NGSS to a high degree (Florida); states that adapted standards based on NGSS (Tennessee, Mississippi, Nebraska, Louisiana) still report teaching the NGSS.
+Teachers in states that have neither adapted nor adopted the \#NGSS report that their school is teaching the NGSS to a high degree (Florida); states that adapted standards based on NGSS (Tennessee, Mississippi, Nebraska, Louisiana) still report teaching the NGSS.
 
 ```{r}
-data %>% 
+data <- data %>% 
+  mutate(category_yes = category_yes / 100) %>% 
+  mutate(adoption_status = case_when(
+    adoption_status == "adopted" ~ "The NGSS",
+    adoption_status == "adapted" ~ "Standards Based on the NGSS",
+    adoption_status == "none" ~ "Neither Based on the NGSS nor the NGSS",
+    TRUE ~ adoption_status))
+
+data1 <- data %>% 
+  group_by(adoption_status) %>% 
+  summarize(mean_category_yes = mean(category_yes))
+
+data1 
+```
+
+```{r}
+data2 <- data %>% 
+  group_by(adoption_status, year) %>% 
+  summarize(mean_category_yes = mean(category_yes))
+
+data2
+```
+
+by year
+
+```{r}
+data3 <- data %>% 
+  group_by(year) %>% 
+  summarize(mean_category_yes = mean(category_yes))
+
+data3
+```
+overall
+
+```{r}
+data4 <- data %>% 
+  summarize(mean_category_yes = mean(category_yes))
+
+data4
+```
+
+```{r}
+p1 <- data %>% 
+  filter(adoption_status == "Standards Based on the NGSS") %>% 
   mutate(year = as.factor(year)) %>% 
-  ggplot(aes(x = location_fct, y = category_yes, fill = year)) +
-  geom_col(position = "dodge") +
-  geom_errorbar(aes(ymin = ymin,
-                    ymax = ymax),
-                position = "dodge") +
+  ggplot(aes(x = location_fct, y = category_yes, color = year, shape = year)) +
+  geom_point(size = 2.5) +
+  ggrepel::geom_label_repel(data = subset(data, location_fct == "Wisconsin"), aes(label = year), color = "black") +
+  geom_hline(yintercept = .529, linetype = 3) +
+  facet_wrap(~adoption_status) +
   theme_minimal() +
   xlab(NULL) +
-  theme(text = element_text(size = 14)) +
-  ylab("% of Respondents Indicating Their School is Teaching the NGSS") +
-  geom_hline(yintercept = 50, linetype = "dashed") +
-  coord_flip()
+  theme(text = element_text(size = 15)) +
+  ylab(NULL) +
+  coord_flip() +
+  scale_color_brewer(type = "qual", palette = 2) + 
+  scale_y_continuous(labels = scales::percent, limits=c(0,1))
+
+p2 <- data %>% 
+  filter(adoption_status == "The NGSS") %>% 
+  mutate(year = as.factor(year)) %>% 
+  ggplot(aes(x = location_fct, y = category_yes, color = year, shape = year)) +
+  geom_point(size = 2.5) +
+  ggrepel::geom_label_repel(data = subset(data, location_fct == "Rhode Island"), aes(label = year), color = "black") +
+  geom_hline(yintercept = .817, linetype = 3) +
+  facet_wrap(~adoption_status) +
+  theme_minimal() +
+  xlab(NULL) +
+  theme(text = element_text(size = 15)) +
+  ylab(NULL) +
+  coord_flip() +
+  scale_color_brewer(type = "qual", palette = 2) +
+  scale_y_continuous(labels = scales::percent, limits=c(0,1))
+
+p3 <- data %>% 
+  filter(adoption_status == "Neither Based on the NGSS nor the NGSS") %>% 
+  mutate(year = as.factor(year)) %>% 
+  ggplot(aes(x = location_fct, y = category_yes, color = year, shape = year)) +
+  geom_point(size = 2.5) +
+  ggrepel::geom_label_repel(data = subset(data, location_fct == "Florida"), aes(label = year), color = "black") +
+  geom_hline(yintercept = .625, linetype = 3) +
+  facet_wrap(~adoption_status) +
+  theme_minimal() +
+  xlab(NULL) +
+  theme(text = element_text(size = 15)) +
+  coord_flip() +
+  scale_color_brewer(type = "qual", palette = 2) +
+  ylab(NULL) +
+  scale_y_continuous(labels = scales::percent, limits=c(0,1))
+```
+
+
+```{r}
+title <- ggdraw() + 
+  draw_label(
+    "Teachers Reporting their School is Teaching the NGSS",
+    x = 0,
+    hjust = 0
+  )
+
+# l <- cowplot::get_legend(p1)
+p_out <- cowplot::plot_grid(
+  title,
+  p1 + theme(legend.position = "none"), 
+  p2 + theme(legend.position = "none"), 
+  p3 + theme(legend.position = "none"), 
+  ncol = 1,
+  rel_heights = c(.05, .4,.4,.2),
+  align = "v"
+)
+
+ggdraw(add_sub(p_out, "Dashed line indicates the mean percentage across the two years.",
+               size = 9,
+               hjust = 0))
+
+ggsave("ngss-implementation-by-state.png", width = 10, height = 10)
 ```
